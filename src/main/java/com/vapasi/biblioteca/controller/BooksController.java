@@ -31,7 +31,7 @@ public class BooksController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<BookDto>> getMovies() {
+    public ResponseEntity<List<BookDto>> getAllBooks() {
         List<BookDto> allBookDto = booksService.getAllBooks();
         return ResponseEntity.ok().body(allBookDto);
     }
