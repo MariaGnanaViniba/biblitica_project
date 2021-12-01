@@ -1,4 +1,4 @@
-package com.vapasi.biblioteca.libraryDto;
+package com.vapasi.biblioteca.dto;
 
 import com.vapasi.biblioteca.entity.BookEntity;
 
@@ -7,27 +7,29 @@ import java.util.Objects;
 public class BookDto {
 
     private Integer id;
-    private String isdn;
+    private String isbn;
     private String title;
     private String author;
     private String publisher;
     private Integer yearOfPublication;
 
-    public BookDto(Integer id, String isdn, String title, String author, String publisher, Integer yearOfPublication) {
+    public BookDto(Integer id, String isbn, String title, String author, String publisher, Integer yearOfPublication) {
         this.id = id;
-        this.isdn = isdn;
+        this.isbn = isbn;
         this.title = title;
         this.author = author;
         this.publisher = publisher;
         this.yearOfPublication = yearOfPublication;
     }
 
+
+
     public Integer getId() {
         return id;
     }
 
-    public String getIsdn() {
-        return isdn;
+    public String getIsbn() {
+        return isbn;
     }
 
     public String getTitle() {
@@ -56,14 +58,14 @@ public class BookDto {
 
     @Override
     public int hashCode() {
-        return Objects.hash(isdn, title, author, publisher, yearOfPublication);
+        return Objects.hash(isbn, title, author, publisher, yearOfPublication);
     }
 
     @Override
     public String toString() {
         return "BookDto{" +
                 "id=" + id +
-                ", isdn='" + isdn + '\'' +
+                ", isbn='" + isbn + '\'' +
                 ", title='" + title + '\'' +
                 ", author='" + author + '\'' +
                 ", publisher='" + publisher + '\'' +
@@ -72,7 +74,7 @@ public class BookDto {
     }
 
     public static BookDto dtoFrom(BookEntity bookEntity) {
-        return new BookDto(bookEntity.getId(),bookEntity.getIsdn(),bookEntity.getTitle(),bookEntity.getAuthor(),bookEntity.getPublisher(),
+        return new BookDto(bookEntity.getId(),bookEntity.getIsbn(),bookEntity.getTitle(),bookEntity.getAuthor(),bookEntity.getPublisher(),
                 bookEntity.getYearOfPublication());
     }
 }

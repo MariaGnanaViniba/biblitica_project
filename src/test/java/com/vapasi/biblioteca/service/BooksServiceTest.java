@@ -1,7 +1,7 @@
 package com.vapasi.biblioteca.service;
 
 import com.vapasi.biblioteca.entity.BookEntity;
-import com.vapasi.biblioteca.libraryDto.BookDto;
+import com.vapasi.biblioteca.dto.BookDto;
 import com.vapasi.biblioteca.repository.BooksRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

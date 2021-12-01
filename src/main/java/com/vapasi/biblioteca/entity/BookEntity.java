@@ -1,5 +1,7 @@
 package com.vapasi.biblioteca.entity;
 
+import com.vapasi.biblioteca.dto.BookDto;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -10,16 +12,16 @@ public class BookEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String isdn;
+    private String isbn;
     private String title;
     private String author;
     private String publisher;
     private Integer yearOfPublication;
 
     public BookEntity() {}
-    public BookEntity(Integer id, String isdn, String title, String author, String publisher, Integer yearOfPublication) {
+    public BookEntity(Integer id, String isbn, String title, String author, String publisher, Integer yearOfPublication) {
         this.id = id;
-        this.isdn = isdn;
+        this.isbn = isbn;
         this.title = title;
         this.author = author;
         this.publisher = publisher;
@@ -34,12 +36,12 @@ public class BookEntity {
         this.id = id;
     }
 
-    public String getIsdn() {
-        return isdn;
+    public String getIsbn() {
+        return isbn;
     }
 
-    public void setIsdn(String isdn) {
-        this.isdn = isdn;
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
     }
 
     public String getTitle() {
@@ -84,18 +86,23 @@ public class BookEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, isdn, title, author, publisher, yearOfPublication);
+        return Objects.hash(id, isbn, title, author, publisher, yearOfPublication);
     }
 
     @Override
     public String toString() {
         return "BookEntity{" +
                 "id=" + id +
-                ", isdn='" + isdn + '\'' +
+                ", isbn='" + isbn + '\'' +
                 ", title='" + title + '\'' +
                 ", author='" + author + '\'' +
                 ", publisher='" + publisher + '\'' +
                 ", yearOfPublication=" + yearOfPublication +
                 '}';
     }
+
+    public static BookEntity entityFrom(BookDto bookDto) {
+        return new BookEntity(null, bookDto.getIsbn(), bookDto.getTitle(), bookDto.getAuthor(),bookDto.getPublisher(),bookDto.getYearOfPublication());
+    }
+
 }
