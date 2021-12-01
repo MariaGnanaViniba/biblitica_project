@@ -20,6 +20,9 @@ workflows:
             - test
             - package
             - deploy
+      - deploy:
+          requires:
+            - hold
 
 
 jobs:
