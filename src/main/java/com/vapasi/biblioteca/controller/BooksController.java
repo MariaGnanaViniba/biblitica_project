@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/books")
+@RequestMapping("api/v1/books")
 public class BooksController {
 
     BooksService booksService;
@@ -35,4 +35,6 @@ public class BooksController {
         List<BookDto> allBookDto = booksService.getAllBooks();
         return ResponseEntity.ok().body(allBookDto);
     }
+
+
 }
