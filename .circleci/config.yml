@@ -13,6 +13,16 @@ workflows:
       - deploy:
           requires:
             - package
+      -hold:
+          type: approval
+          requires:
+            - build
+            - test
+            - package
+            - deploy
+      - deploy:
+          requires:
+            - hold
 
 jobs:
   build:
