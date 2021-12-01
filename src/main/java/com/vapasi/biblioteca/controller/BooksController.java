@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/books")
+@RequestMapping("/books")
 public class BooksController {
 
     BooksService booksService;
@@ -25,11 +25,14 @@ public class BooksController {
         this.booksService = booksService;
     }
 
+    @GetMapping("/welcome")
+    public String getGreetings() {
+        return "Welcome Biblioteca";
+    }
+
     @GetMapping("/")
     public ResponseEntity<List<BookDto>> getMovies() {
         List<BookDto> allBookDto = booksService.getAllBooks();
         return ResponseEntity.ok().body(allBookDto);
     }
-
-
 }
