@@ -28,3 +28,12 @@ test {
 		junitXml.enabled = true
 	}
 }
+
+
+prod {
+	systemProperty 'spring.profiles.active', 'prod'
+	useJUnitPlatform()
+	reports {
+		junitXml.enabled = true
+	}
+}
