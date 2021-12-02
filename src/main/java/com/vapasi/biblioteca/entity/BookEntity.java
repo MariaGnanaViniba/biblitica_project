@@ -17,15 +17,17 @@ public class BookEntity {
     private String author;
     private String publisher;
     private Integer yearOfPublication;
+    private String status;
 
     public BookEntity() {}
-    public BookEntity(Integer id, String isbn, String title, String author, String publisher, Integer yearOfPublication) {
+    public BookEntity(Integer id, String isbn, String title, String author, String publisher, Integer yearOfPublication, String status) {
         this.id = id;
         this.isbn = isbn;
         this.title = title;
         this.author = author;
         this.publisher = publisher;
         this.yearOfPublication = yearOfPublication;
+        this.status = status;
     }
 
     public Integer getId() {
@@ -76,33 +78,30 @@ public class BookEntity {
         this.yearOfPublication = yearOfPublication;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BookEntity that = (BookEntity) o;
-        return title.equals(that.title) && author.equals(that.author) && publisher.equals(that.publisher) && yearOfPublication.equals(that.yearOfPublication);
+        return Objects.equals(isbn, that.isbn) && Objects.equals(title, that.title) && Objects.equals(author, that.author) && Objects.equals(publisher, that.publisher) && Objects.equals(yearOfPublication, that.yearOfPublication) && Objects.equals(status, that.status);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, isbn, title, author, publisher, yearOfPublication);
-    }
-
-    @Override
-    public String toString() {
-        return "BookEntity{" +
-                "id=" + id +
-                ", isbn='" + isbn + '\'' +
-                ", title='" + title + '\'' +
-                ", author='" + author + '\'' +
-                ", publisher='" + publisher + '\'' +
-                ", yearOfPublication=" + yearOfPublication +
-                '}';
+        return Objects.hash(isbn, title, author, publisher, yearOfPublication, status);
     }
 
     public static BookEntity entityFrom(BookDto bookDto) {
-        return new BookEntity(null, bookDto.getIsbn(), bookDto.getTitle(), bookDto.getAuthor(),bookDto.getPublisher(),bookDto.getYearOfPublication());
+        return new BookEntity(null, bookDto.getIsbn(), bookDto.getTitle(), bookDto.getAuthor(),bookDto.getPublisher(),bookDto.getYearOfPublication(), bookDto.getStatus());
     }
 
 }

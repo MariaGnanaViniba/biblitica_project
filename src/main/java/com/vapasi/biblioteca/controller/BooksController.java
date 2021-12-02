@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -31,9 +32,15 @@ public class BooksController {
 
     @GetMapping("/")
     public ResponseEntity<List<BookDto>> getAllBooks() {
-        List<BookDto> allBookDto = booksService.getAllBooks();
-        return ResponseEntity.ok().body(allBookDto);
+        List<BookDto> allBooksDto = booksService.getAllBooks();
+        return ResponseEntity.ok().body(allBooksDto);
     }
 
+
+    @GetMapping("/search")
+    public ResponseEntity<List<BookDto>> filterByStatus(@RequestParam String status) {
+        List<BookDto> filteredBooksDto = booksService.filterByStatus(status);
+        return ResponseEntity.ok().body(filteredBooksDto);
+    }
 
 }

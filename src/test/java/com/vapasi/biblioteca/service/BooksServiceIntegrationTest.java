@@ -22,13 +22,16 @@ public class BooksServiceIntegrationTest {
 
     @Test
     public void getAllBooksAddedToList() {
+        //Given
        booksRepository.deleteAll();
 
+        // When
         List<BookEntity> allBooks = new ArrayList<>();
-        allBooks.add(new BookEntity(null, "ME2321", "Refractorin", "Martin","publisher",2000));
-        allBooks.add(new BookEntity(null, "p356", "Samuel Story", "Quintine","publisher2",1980));
+        allBooks.add(new BookEntity(null, "ME2321", "Refractorin", "Martin","publisher",2000, "Available"));
+        allBooks.add(new BookEntity(null, "p356", "Samuel Story", "Quintine","publisher2",1980,"Available"));
         booksRepository.saveAll(allBooks);
 
+        // Then
         List<BookDto> actualBooks = booksService.getAllBooks();
         assertEquals(2, actualBooks.size());
     }
@@ -36,10 +39,13 @@ public class BooksServiceIntegrationTest {
 
     @Test
     public void getEmptyBooksWhenNoBooksAddedToList() {
+        //Given
         booksRepository.deleteAll();
 
+        // When
         List<BookDto> allBooks = booksService.getAllBooks();
 
+        // Then
         assertEquals(0, allBooks.size());
     }
 
@@ -50,11 +56,27 @@ public class BooksServiceIntegrationTest {
         booksRepository.deleteAll();
 
         // When
-        BookEntity bookEntity = new BookEntity(null, "ME2321", "Refractorin", "Martin","publisher",2000);
+        BookEntity bookEntity = new BookEntity(null, "ME2321", "Refractorin", "Martin","publisher",2000,"Available");
         BookEntity savedEntity = booksRepository.save(bookEntity);
 
         // Then
-        BookDto expectedBook = new BookDto(savedEntity.getId() ,savedEntity.getIsbn(),savedEntity.getTitle(),savedEntity.getAuthor(),savedEntity.getPublisher(),savedEntity.getYearOfPublication());
+        BookDto expectedBook = new BookDto(savedEntity.getId() ,savedEntity.getIsbn(),savedEntity.getTitle(),savedEntity.getAuthor(),savedEntity.getPublisher(),savedEntity.getYearOfPublication(),savedEntity.getStatus());
         assertEquals(expectedBook, booksService.getBookById(savedEntity.getId()).get());
+    }
+
+    @Test
+    public void filterBooksByStatus() {
+        // Given
+        booksRepository.deleteAll();
+
+        // When
+        List<BookEntity> allBooks = new ArrayList<>();
+        allBooks.add(new BookEntity(null, "ME2321", "Refractorin", "Martin","publisher",2000,"Available"));
+        allBooks.add(new BookEntity(null, "p356", "Samuel Story", "Quintine","publisher2",1980, "Available"));
+        booksRepository.saveAll(allBooks);
+
+        //Then
+        List<BookDto> actualBooks = booksService.filterByStatus("Available");
+        assertEquals(2, actualBooks.size());
     }
 }

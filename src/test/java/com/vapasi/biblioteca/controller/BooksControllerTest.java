@@ -27,7 +27,6 @@ public class BooksControllerTest {
 
     @Test
     void shouldExpectOKStatusWhileFetchingAllBooks() throws Exception {
-
         mockMvc.perform(get("/api/v1/books/")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
@@ -41,5 +40,14 @@ public class BooksControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError());
         verify(booksService, times(0)).getAllBooks();
+    }
+
+    @Test
+    void shouldExpectOKStatusWhileFilteringBooksByStatus() throws Exception {
+        mockMvc.perform(get("/api/v1/books/search?status=Available")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        verify(booksService, times(1)).filterByStatus("Available");
     }
 }

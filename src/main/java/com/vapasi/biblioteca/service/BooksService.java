@@ -22,9 +22,7 @@ public class BooksService {
     }
 
     public List<BookDto> getAllBooks() {
-
         List<BookEntity> bookEntityList = booksRepository.findAll();
-
         return convertToBookDtoList(bookEntityList);
     }
 
@@ -36,5 +34,10 @@ public class BooksService {
     public Optional<BookDto> getBookById(Integer id) {
         Optional<BookEntity> bookEntity = booksRepository.findById(id);
         return bookEntity.map(BookDto::dtoFrom);
+    }
+
+    public List<BookDto> filterByStatus(String status) {
+        List<BookEntity> bookEntityList = booksRepository.findAllByStatusContains(status);
+        return convertToBookDtoList(bookEntityList);
     }
 }
