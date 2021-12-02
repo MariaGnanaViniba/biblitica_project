@@ -40,4 +40,8 @@ public class BooksService {
         List<BookEntity> bookEntityList = booksRepository.findAllByStatusContains(status);
         return convertToBookDtoList(bookEntityList);
     }
+
+    public List<BookDto> getIssueBookToCustomer(String bookId, String customerId) {
+        return null;
+    }
 }
