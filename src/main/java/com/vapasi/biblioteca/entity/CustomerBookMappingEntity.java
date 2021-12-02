@@ -1,5 +1,8 @@
 package com.vapasi.biblioteca.entity;
 
+import com.vapasi.biblioteca.dto.BookDto;
+import com.vapasi.biblioteca.dto.CustomerBookMappingDto;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -29,8 +32,8 @@ public class CustomerBookMappingEntity {
         return Objects.hash(customerBookMappingId, customerId, bookId);
     }
 
-    public CustomerBookMappingEntity(Integer customerId, Integer bookId) {
-
+    public CustomerBookMappingEntity(Integer customerBookMappingId, Integer customerId, Integer bookId) {
+        this.customerBookMappingId = customerBookMappingId;
         this.customerId = customerId;
         this.bookId = bookId;
     }
@@ -53,5 +56,8 @@ public class CustomerBookMappingEntity {
 
     public void setBookId(Integer bookId) {
         this.bookId = bookId;
+    }
+    public static CustomerBookMappingEntity entityFrom(CustomerBookMappingDto customerBookMappingDto) {
+        return new CustomerBookMappingEntity(null,customerBookMappingDto.getCustomerId(), customerBookMappingDto.getBookId());
     }
 }

@@ -4,6 +4,7 @@ import com.vapasi.biblioteca.entity.BookEntity;
 import com.vapasi.biblioteca.entity.CustomerBookMappingEntity;
 import com.vapasi.biblioteca.repository.BooksRepository;
 import com.vapasi.biblioteca.repository.CustomerBookMappingRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,17 +19,20 @@ public class CustomerServiceIntegrationTest {
     @Autowired
     CustomerBookMappingRepository customerBookMappingRepository;
 
+
     @Test
     void shouldBeAbleToCheckoutBook(){
         //Arrange
         Integer bookId = new Integer(1);
         Integer customerId = new Integer(1);
-        CustomerBookMappingEntity existingMappingEntity = customerBookMappingRepository.findByCustomerId(customerId);
+        CustomerBookMappingEntity expectedMappingEntity
+                = new CustomerBookMappingEntity(new Integer(1),customerId, bookId);
+        CustomerBookMappingEntity savedMappingEntity = null;
         if(!customerBookMappingRepository.existsByCustomerIdAndBookId(customerId, bookId)){
-            CustomerBookMappingEntity customerBookMappingEntity = new CustomerBookMappingEntity(customerId, bookId);
-            customerBookMappingRepository.save(customerBookMappingEntity);
+            CustomerBookMappingEntity customerBookMappingEntity = new CustomerBookMappingEntity(null, customerId, bookId);
+            savedMappingEntity = customerBookMappingRepository.save(customerBookMappingEntity);
         }
-
+        Assertions.assertEquals(expectedMappingEntity, savedMappingEntity);
         //issueBook?bookid=1&customerid=1
 
         // check if the book has status = avilable

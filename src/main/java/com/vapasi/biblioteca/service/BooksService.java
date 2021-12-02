@@ -1,8 +1,11 @@
 package com.vapasi.biblioteca.service;
 
+import com.vapasi.biblioteca.dto.CustomerBookMappingDto;
 import com.vapasi.biblioteca.entity.BookEntity;
 import com.vapasi.biblioteca.dto.BookDto;
+import com.vapasi.biblioteca.entity.CustomerBookMappingEntity;
 import com.vapasi.biblioteca.repository.BooksRepository;
+import com.vapasi.biblioteca.repository.CustomerBookMappingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +23,7 @@ public class BooksService {
     public BooksService(BooksRepository booksRepository) {
         this.booksRepository = booksRepository;
     }
+
 
     public List<BookDto> getAllBooks() {
         List<BookEntity> bookEntityList = booksRepository.findAll();
@@ -41,7 +45,4 @@ public class BooksService {
         return convertToBookDtoList(bookEntityList);
     }
 
-    public List<BookDto> getIssueBookToCustomer(String bookId, String customerId) {
-        return null;
-    }
 }

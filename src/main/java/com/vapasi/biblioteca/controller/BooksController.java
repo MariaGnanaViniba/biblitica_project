@@ -1,27 +1,26 @@
 package com.vapasi.biblioteca.controller;
 
 import com.vapasi.biblioteca.dto.BookDto;
+import com.vapasi.biblioteca.dto.CustomerBookMappingDto;
 import com.vapasi.biblioteca.repository.BooksRepository;
 import com.vapasi.biblioteca.service.BooksService;
+import com.vapasi.biblioteca.service.CustomerBookMappingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/books")
 public class BooksController {
 
     BooksService booksService;
-    BooksRepository booksRepository;
-
 
     @Autowired
     public BooksController(BooksService booksService) {
+
         this.booksService = booksService;
     }
 

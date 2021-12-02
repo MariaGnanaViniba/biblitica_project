@@ -1,5 +1,8 @@
 package com.vapasi.biblioteca.entity;
 
+import com.vapasi.biblioteca.dto.CustomerBookMappingDto;
+import com.vapasi.biblioteca.dto.CustomerDto;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -13,7 +16,11 @@ public class CustomerEntity {
     private String email;
     private String phone;
 
-    public CustomerEntity() {
+    public CustomerEntity() {}
+
+    public CustomerEntity(Integer customerid, String customerName) {
+        this.customerid = customerid;
+        this.customerName = customerName;
     }
 
     @Override
@@ -43,5 +50,8 @@ public class CustomerEntity {
 
     public void setCustomerid(Integer customerid) {
         this.customerid = customerid;
+    }
+    public static CustomerEntity entityFrom(CustomerDto customerDto) {
+        return new CustomerEntity(customerDto.getCustomerid(), customerDto.getCustomerName());
     }
 }
