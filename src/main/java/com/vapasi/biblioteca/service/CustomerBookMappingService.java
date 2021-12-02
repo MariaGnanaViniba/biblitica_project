@@ -11,21 +11,5 @@ import java.util.Optional;
 @Service
 public class CustomerBookMappingService {
 
-    private CustomerBookMappingRepository mappingRepository;
-    @Autowired
-    public CustomerBookMappingService(CustomerBookMappingRepository mappingRepository) {
-        this.mappingRepository = mappingRepository;
-    }
 
-
-    public Optional<CustomerBookMappingDto> issueBookToCustomer(CustomerBookMappingDto customerBookMappingDto) {
-//        Integer bookId = new Integer(1);
-//        Integer customerId = new Integer(1);
-//        CustomerBookMappingEntity existingMappingEntity = mappingRepository.findByCustomerId(customerId);
-//        if(!mappingRepository.existsByCustomerIdAndBookId(customerId, bookId)){
-//            CustomerBookMappingEntity customerBookMappingEntity = new CustomerBookMappingEntity(customerId, bookId);
-//            mappingRepository.save(customerBookMappingEntity);
-//        }
-        return null;
-    }
 }

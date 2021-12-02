@@ -1,6 +1,5 @@
 package com.vapasi.biblioteca.service;
 
-import com.vapasi.biblioteca.entity.BookEntity;
 import com.vapasi.biblioteca.entity.CustomerBookMappingEntity;
 import com.vapasi.biblioteca.repository.BooksRepository;
 import com.vapasi.biblioteca.repository.CustomerBookMappingRepository;
@@ -13,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class CustomerServiceIntegrationTest {
 
     @Autowired
-    BooksService booksService;
+    LibraryService booksService;
     @Autowired
     BooksRepository booksRepository;
     @Autowired

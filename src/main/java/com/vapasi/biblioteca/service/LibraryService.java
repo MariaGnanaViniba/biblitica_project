@@ -14,16 +14,33 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class BooksService {
+public class LibraryService {
 
 
     private BooksRepository booksRepository;
+    private CustomerBookMappingRepository mappingRepository;
 
     @Autowired
-    public BooksService(BooksRepository booksRepository) {
+    public LibraryService(BooksRepository booksRepository, CustomerBookMappingRepository mappingRepository) {
         this.booksRepository = booksRepository;
+        this.mappingRepository = mappingRepository;
     }
 
+
+
+    public Optional<CustomerBookMappingDto> issueBookToCustomer(CustomerBookMappingDto customerBookMappingDto) {
+//        Integer bookId = new Integer(1);
+//        Integer customerId = new Integer(1);
+//        CustomerBookMappingEntity existingMappingEntity = mappingRepository.findByCustomerId(customerId);
+//        if(!mappingRepository.existsByCustomerIdAndBookId(customerId, bookId)){
+//            CustomerBookMappingEntity customerBookMappingEntity = new CustomerBookMappingEntity(customerId, bookId);
+//            mappingRepository.save(customerBookMappingEntity);
+//        }
+// movieEntity.map(MovieDto::dtoFrom);
+        CustomerBookMappingEntity customerBookMappingEntity = CustomerBookMappingEntity.entityFrom(customerBookMappingDto);
+        CustomerBookMappingDto savedCustomerBookMappingDto = CustomerBookMappingDto.dtoFrom(mappingRepository.save(customerBookMappingEntity));
+        return Optional.of(savedCustomerBookMappingDto);
+    }
 
     public List<BookDto> getAllBooks() {
         List<BookEntity> bookEntityList = booksRepository.findAll();

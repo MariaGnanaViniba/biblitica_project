@@ -3,6 +3,7 @@ package com.vapasi.biblioteca.service;
 import com.vapasi.biblioteca.entity.BookEntity;
 import com.vapasi.biblioteca.dto.BookDto;
 import com.vapasi.biblioteca.repository.BooksRepository;
+import com.vapasi.biblioteca.repository.CustomerBookMappingRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,15 +17,15 @@ import static org.mockito.Mockito.*;
 
 public class BooksServiceTest {
 
-    BooksService booksService;
+    LibraryService booksService;
 
     BooksRepository booksRepository;
-
+    CustomerBookMappingRepository mappingRepository;
 
     @BeforeEach
     void setUp() {
         booksRepository = mock(BooksRepository.class);
-        booksService = new BooksService(booksRepository);
+        booksService = new LibraryService(booksRepository, mappingRepository);
     }
 
     @Test

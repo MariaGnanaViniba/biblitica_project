@@ -15,17 +15,4 @@ import java.util.Optional;
 public class CustomerController {
     CustomerBookMappingService mappingService;
 
-    @PostMapping("/")
-    private ResponseEntity<String> issueBookToCustomer(@RequestBody CustomerBookMappingDto mappingDto) {
-        System.out.println(mappingDto.getCustomerId());
-        System.out.println(mappingDto.getBookId());
-        Optional<CustomerBookMappingDto> savedMappingDto = mappingService.issueBookToCustomer(mappingDto);
-
-        if (savedMappingDto.isPresent()) {
-
-            return ResponseEntity.ok().body("Successful");
-        }
-        return ResponseEntity.notFound().build();
-
-    }
 }

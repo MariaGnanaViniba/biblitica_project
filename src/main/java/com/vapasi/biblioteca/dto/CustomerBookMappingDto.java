@@ -1,5 +1,8 @@
 package com.vapasi.biblioteca.dto;
 
+import com.vapasi.biblioteca.entity.BookEntity;
+import com.vapasi.biblioteca.entity.CustomerBookMappingEntity;
+
 import java.util.Objects;
 
 public class CustomerBookMappingDto {
@@ -47,5 +50,10 @@ public class CustomerBookMappingDto {
 
     public void setBookId(Integer bookId) {
         this.bookId = bookId;
+    }
+
+    public static CustomerBookMappingDto dtoFrom(CustomerBookMappingEntity mappingEntity) {
+        return new CustomerBookMappingDto(mappingEntity.getCustomerBookMappingId(),mappingEntity.getCustomerId(),
+                mappingEntity.getBookId());
     }
 }
