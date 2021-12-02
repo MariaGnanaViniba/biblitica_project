@@ -43,7 +43,7 @@ public class BooksControllerTest {
 
     @Test
     void shouldExpectOKStatusWhileFilteringBooksByStatus() throws Exception {
-        mockMvc.perform(get("/api/v1/library/search?status=Available")
+        mockMvc.perform(get("/api/v1/library/books?status=Available")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 

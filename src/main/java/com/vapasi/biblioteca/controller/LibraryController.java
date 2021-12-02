@@ -2,6 +2,8 @@ package com.vapasi.biblioteca.controller;
 
 import com.vapasi.biblioteca.dto.BookDto;
 import com.vapasi.biblioteca.dto.CustomerBookMappingDto;
+import com.vapasi.biblioteca.exceptions.BookNotFoundException;
+import com.vapasi.biblioteca.exceptions.CustomerNotFoundException;
 import com.vapasi.biblioteca.service.LibraryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +19,9 @@ public class LibraryController {
     LibraryService libraryService;
 
     @Autowired
-    public LibraryController(LibraryService booksService) {
+    private LibraryController(LibraryService libraryService) {
 
-        this.libraryService = booksService;
+        this.libraryService = libraryService;
     }
 
     @GetMapping("/welcome")
@@ -42,15 +44,20 @@ public class LibraryController {
 
     @PostMapping("/books/")
     private ResponseEntity<String> issueBookToCustomer(@RequestBody CustomerBookMappingDto mappingDto) {
-        System.out.println(mappingDto.getCustomerId());
-        System.out.println(mappingDto.getBookId());
-        Optional<CustomerBookMappingDto> savedMappingDto = libraryService.issueBookToCustomer(mappingDto);
-
-        if (savedMappingDto.isPresent()) {
-
-            return ResponseEntity.ok().body("Successful");
+        if(mappingDto.getCustomerId() == null ||
+                mappingDto.getBookId() == null) {
+            return ResponseEntity.badRequest().body("Please provide proper details, try again.");
+        }
+        try {
+            Optional<CustomerBookMappingDto> savedMappingDto = libraryService.issueBook(mappingDto);
+            if (savedMappingDto.isPresent()) {
+                return ResponseEntity.ok().body("Book is successful issued.");
+            }
+        }catch(CustomerNotFoundException custException){
+            return ResponseEntity.badRequest().body("Customer not found, please try again.");
+        }catch(BookNotFoundException bookException){
+            return ResponseEntity.badRequest().body("Book not found, please try again.");
         }
         return ResponseEntity.notFound().build();
-
     }
 }

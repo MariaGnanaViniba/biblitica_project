@@ -101,7 +101,7 @@ public class BookEntity {
     }
 
     public static BookEntity entityFrom(BookDto bookDto) {
-        return new BookEntity(null, bookDto.getIsbn(), bookDto.getTitle(), bookDto.getAuthor(),bookDto.getPublisher(),bookDto.getYearOfPublication(), bookDto.getStatus());
+        return new BookEntity(bookDto.getId(), bookDto.getIsbn(), bookDto.getTitle(), bookDto.getAuthor(),bookDto.getPublisher(),bookDto.getYearOfPublication(), bookDto.getStatus());
     }
 
 }

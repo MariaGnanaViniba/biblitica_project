@@ -4,6 +4,8 @@ import com.vapasi.biblioteca.dto.CustomerBookMappingDto;
 import com.vapasi.biblioteca.entity.BookEntity;
 import com.vapasi.biblioteca.dto.BookDto;
 import com.vapasi.biblioteca.entity.CustomerBookMappingEntity;
+import com.vapasi.biblioteca.exceptions.BookNotFoundException;
+import com.vapasi.biblioteca.exceptions.CustomerNotFoundException;
 import com.vapasi.biblioteca.repository.BooksRepository;
 import com.vapasi.biblioteca.repository.CustomerBookMappingRepository;
 import com.vapasi.biblioteca.repository.CustomerRepository;
@@ -31,20 +33,18 @@ public class LibraryService {
 
 
 
-    public Optional<CustomerBookMappingDto> issueBookToCustomer(CustomerBookMappingDto customerBookMappingDto) {
-
-//        CustomerBookMappingEntity existingMappingEntity = mappingRepository.findByCustomerId(customerId);
-//        if(!mappingRepository.existsByCustomerIdAndBookId(customerId, bookId)){
-//            CustomerBookMappingEntity customerBookMappingEntity = new CustomerBookMappingEntity(customerId, bookId);
-//            mappingRepository.save(customerBookMappingEntity);
-//        }
-// movieEntity.map(MovieDto::dtoFrom);
-
+    public Optional<CustomerBookMappingDto> issueBook(CustomerBookMappingDto customerBookMappingDto) {
+        if(!customerRepository.existsByCustomerId(customerBookMappingDto.getCustomerId())){
+            throw new CustomerNotFoundException();
+        }
+        if(!booksRepository.existsById(customerBookMappingDto.getBookId())){
+            throw new BookNotFoundException();
+        }
         CustomerBookMappingEntity customerBookMappingEntity = CustomerBookMappingEntity.entityFrom(customerBookMappingDto);
         CustomerBookMappingDto savedCustomerBookMappingDto = CustomerBookMappingDto.dtoFrom(mappingRepository.save(customerBookMappingEntity));
 
-
         updateBookStatus(customerBookMappingEntity.getBookId(), "Checkedout");
+
         return Optional.of(savedCustomerBookMappingDto);
     }
 

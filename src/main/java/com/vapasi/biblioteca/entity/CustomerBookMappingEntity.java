@@ -58,6 +58,6 @@ public class CustomerBookMappingEntity {
         this.bookId = bookId;
     }
     public static CustomerBookMappingEntity entityFrom(CustomerBookMappingDto customerBookMappingDto) {
-        return new CustomerBookMappingEntity(null,customerBookMappingDto.getCustomerId(), customerBookMappingDto.getBookId());
+        return new CustomerBookMappingEntity(customerBookMappingDto.getCustomerBookMappingid(),customerBookMappingDto.getCustomerId(), customerBookMappingDto.getBookId());
     }
 }

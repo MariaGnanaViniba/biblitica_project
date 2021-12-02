@@ -1,6 +1,5 @@
 package com.vapasi.biblioteca.entity;
 
-import com.vapasi.biblioteca.dto.CustomerBookMappingDto;
 import com.vapasi.biblioteca.dto.CustomerDto;
 
 import javax.persistence.*;
@@ -11,15 +10,15 @@ import java.util.Objects;
 public class CustomerEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer customerid;
+    private Integer customerId;
     private String customerName;
     private String email;
     private String phone;
 
     public CustomerEntity() {}
 
-    public CustomerEntity(Integer customerid, String customerName) {
-        this.customerid = customerid;
+    public CustomerEntity(Integer customerId, String customerName) {
+        this.customerId = customerId;
         this.customerName = customerName;
     }
 
@@ -28,12 +27,12 @@ public class CustomerEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CustomerEntity that = (CustomerEntity) o;
-        return customerid.equals(that.customerid) && customerName.equals(that.customerName) && email.equals(that.email) && phone.equals(that.phone);
+        return customerId.equals(that.customerId) && customerName.equals(that.customerName) && email.equals(that.email) && phone.equals(that.phone);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(customerid, customerName, email, phone);
+        return Objects.hash(customerId, customerName, email, phone);
     }
 
     public String getCustomerName() {
@@ -44,12 +43,12 @@ public class CustomerEntity {
         this.customerName = customerName;
     }
 
-    public Integer getCustomerid() {
-        return customerid;
+    public Integer getCustomerId() {
+        return customerId;
     }
 
-    public void setCustomerid(Integer customerid) {
-        this.customerid = customerid;
+    public void setCustomerId(Integer customerId) {
+        this.customerId = customerId;
     }
     public static CustomerEntity entityFrom(CustomerDto customerDto) {
         return new CustomerEntity(customerDto.getCustomerid(), customerDto.getCustomerName());
