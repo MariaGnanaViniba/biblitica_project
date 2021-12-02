@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface BooksRepository extends JpaRepository <BookEntity, Integer> {
     List<BookEntity> findAllByStatusContains(String status);
+
 }

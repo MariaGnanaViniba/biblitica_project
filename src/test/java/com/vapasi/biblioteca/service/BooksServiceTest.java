@@ -4,6 +4,7 @@ import com.vapasi.biblioteca.entity.BookEntity;
 import com.vapasi.biblioteca.dto.BookDto;
 import com.vapasi.biblioteca.repository.BooksRepository;
 import com.vapasi.biblioteca.repository.CustomerBookMappingRepository;
+import com.vapasi.biblioteca.repository.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,11 +22,11 @@ public class BooksServiceTest {
 
     BooksRepository booksRepository;
     CustomerBookMappingRepository mappingRepository;
-
+    CustomerRepository customerRepository;
     @BeforeEach
     void setUp() {
         booksRepository = mock(BooksRepository.class);
-        booksService = new LibraryService(booksRepository, mappingRepository);
+        booksService = new LibraryService(booksRepository, mappingRepository, customerRepository);
     }
 
     @Test
