@@ -3,6 +3,7 @@ package com.vapasi.biblioteca.dto;
 import com.vapasi.biblioteca.entity.BookEntity;
 
 import java.util.Objects;
+import java.util.Optional;
 
 public class BookDto {
 

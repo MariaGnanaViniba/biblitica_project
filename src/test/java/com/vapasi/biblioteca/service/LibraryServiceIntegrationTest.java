@@ -3,17 +3,19 @@ package com.vapasi.biblioteca.service;
 import com.vapasi.biblioteca.entity.BookEntity;
 import com.vapasi.biblioteca.dto.BookDto;
 import com.vapasi.biblioteca.repository.BooksRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-public class BooksServiceIntegrationTest {
+public class LibraryServiceIntegrationTest {
 
     @Autowired
     LibraryService booksService;
@@ -78,5 +80,24 @@ public class BooksServiceIntegrationTest {
         //Then
         List<BookDto> actualBooks = booksService.filterByStatus("Available");
         assertEquals(2, actualBooks.size());
+    }
+
+
+    @Test
+    void shouldBeAbleToReturnBook() {
+        //Given
+        booksRepository.deleteAll();
+
+        //When
+        BookEntity bookEntity = new BookEntity(null, "ME2321", "Refractorin", "Martin","publisher",2000,"Available");
+        BookEntity savedEntity = booksRepository.save(bookEntity);
+        BookEntity book = booksRepository.findById(savedEntity.getId()).get();
+        book.setStatus("Available");
+        savedEntity = booksRepository.save(book);
+        BookDto actualDto = new BookDto(savedEntity.getId() ,savedEntity.getIsbn(),savedEntity.getTitle(),savedEntity.getAuthor(),savedEntity.getPublisher(),savedEntity.getYearOfPublication(),savedEntity.getStatus());
+
+        //Then
+        BookDto expectedDto = booksService.returnABook(savedEntity.getId());
+        Assertions.assertEquals(expectedDto, actualDto);
     }
 }

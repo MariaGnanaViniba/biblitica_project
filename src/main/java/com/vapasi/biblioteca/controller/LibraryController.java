@@ -63,4 +63,14 @@ public class LibraryController {
         }
         return ResponseEntity.notFound().build();
     }
+
+
+    @PutMapping ("/books/{id}")
+    private ResponseEntity<String> returnABook(@PathVariable Integer id) {
+        System.out.println("Book id to Return: " + id);
+        BookDto updatedBookDto = libraryService.returnABook(id);
+        StringBuilder message = new StringBuilder("The Book ");
+        message.append(updatedBookDto.getTitle()).append(" is returned Successfully!");
+        return ResponseEntity.ok().body(message.toString());
+    }
 }

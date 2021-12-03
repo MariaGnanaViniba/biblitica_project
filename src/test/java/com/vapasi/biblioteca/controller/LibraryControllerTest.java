@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @WebMvcTest(controllers= LibraryController.class)
-public class BooksControllerTest {
+public class LibraryControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

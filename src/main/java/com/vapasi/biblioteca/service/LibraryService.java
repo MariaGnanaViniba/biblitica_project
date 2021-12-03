@@ -82,4 +82,11 @@ public class LibraryService {
         return convertToBookDtoList(bookEntityList);
     }
 
+    public BookDto returnABook(Integer id) {
+        Optional<BookEntity> bookEntity = booksRepository.findById(id);
+        bookEntity.get().setStatus("Available");
+        BookEntity updatedBook = booksRepository.save(bookEntity.get());
+       //Todo Need to delete an Entry from mapping table.
+        return BookDto.dtoFrom(updatedBook);
+    }
 }
