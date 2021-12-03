@@ -2,6 +2,7 @@ package com.vapasi.biblioteca.controller;
 
 import com.vapasi.biblioteca.dto.BookDto;
 import com.vapasi.biblioteca.dto.CustomerBookMappingDto;
+import com.vapasi.biblioteca.exceptions.BookAlreadyIssuedException;
 import com.vapasi.biblioteca.exceptions.BookNotFoundException;
 import com.vapasi.biblioteca.exceptions.CustomerNotFoundException;
 import com.vapasi.biblioteca.service.LibraryService;
@@ -57,6 +58,8 @@ public class LibraryController {
             return ResponseEntity.badRequest().body("Customer not found, please try again.");
         }catch(BookNotFoundException bookException){
             return ResponseEntity.badRequest().body("Book not found, please try again.");
+        }catch(BookAlreadyIssuedException bookException){
+            return ResponseEntity.badRequest().body("This book is already issued to you.");
         }
         return ResponseEntity.notFound().build();
     }
