@@ -6,6 +6,7 @@ import com.vapasi.biblioteca.dto.BookDto;
 import com.vapasi.biblioteca.entity.CustomerBookMappingEntity;
 import com.vapasi.biblioteca.exceptions.BookAlreadyIssuedException;
 import com.vapasi.biblioteca.exceptions.BookNotFoundException;
+import com.vapasi.biblioteca.exceptions.BookNotIssuedException;
 import com.vapasi.biblioteca.exceptions.CustomerNotFoundException;
 import com.vapasi.biblioteca.repository.BooksRepository;
 import com.vapasi.biblioteca.repository.CustomerBookMappingRepository;
@@ -84,9 +85,7 @@ public class LibraryService {
 
     public BookDto returnABook(CustomerBookMappingDto mappingDto) throws Exception {
        CustomerBookMappingEntity mappingEntity =  mappingRepository.findByCustomerIdAndBookId(mappingDto.getCustomerId(),mappingDto.getBookId());
-        if(mappingEntity == null){
-            throw new Exception("Book not issued to the customer");
-        }
+       validate(mappingEntity);
        mappingRepository.deleteById(mappingEntity.getCustomerBookMappingId());
         BookEntity bookEntity = booksRepository.findById(mappingDto.getBookId())
                 .orElseThrow(() -> {
@@ -98,5 +97,11 @@ public class LibraryService {
         bookEntity.setStatus("Available");
         BookEntity updatedBook = booksRepository.save(bookEntity);
         return  BookDto.dtoFrom(updatedBook);
+    }
+
+    private void validate(CustomerBookMappingEntity mappingEntity) {
+        if(mappingEntity == null){
+            throw new BookNotIssuedException(" Book is not issued to the customer.");
+        }
     }
 }
