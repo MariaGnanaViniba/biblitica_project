@@ -1,5 +1,7 @@
 package com.vapasi.biblioteca.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vapasi.biblioteca.dto.CustomerBookMappingDto;
 import com.vapasi.biblioteca.service.LibraryService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,5 +50,22 @@ public class LibraryControllerTest {
                 .andExpect(status().isOk());
 
         verify(booksService, times(1)).filterByStatus("Available");
+    }
+    @Test
+    void shouldExpectOKStatusWhilebookIsIssued() throws Exception{
+        CustomerBookMappingDto customerBookMappingDto = new CustomerBookMappingDto(1,1,1);
+        mockMvc.perform(post("/api/v1/library/books/issue")
+                        .content(asJsonString(customerBookMappingDto))
+                        .accept(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isOk());
+
+        verify(booksService, times(1)).issueBook(customerBookMappingDto);
+    }
+    public static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

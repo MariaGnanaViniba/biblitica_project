@@ -57,10 +57,11 @@ public class LibraryService {
         }
     }
 
-    private void updateBookStatus(Integer bookId, String status) {
+    private BookDto updateBookStatus(Integer bookId, String status) {
         Optional<Books> bookEntity = booksRepository.findById(bookId);
         bookEntity.get().setStatus(status);
-        booksRepository.save(bookEntity.get());
+        Books updatedBook = booksRepository.save(bookEntity.get());
+        return BookDto.dtoFrom(updatedBook);
     }
 
     public List<BookDto> getAllBooks() {

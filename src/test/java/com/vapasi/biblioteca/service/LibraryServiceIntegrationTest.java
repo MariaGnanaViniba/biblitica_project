@@ -4,6 +4,7 @@ import com.vapasi.biblioteca.dto.CustomerBookMappingDto;
 import com.vapasi.biblioteca.entity.Books;
 import com.vapasi.biblioteca.dto.BookDto;
 import com.vapasi.biblioteca.entity.CustomerBookMappingEntity;
+import com.vapasi.biblioteca.exceptions.BookAlreadyIssuedException;
 import com.vapasi.biblioteca.exceptions.BookNotFoundException;
 import com.vapasi.biblioteca.exceptions.CustomerNotFoundException;
 import com.vapasi.biblioteca.repository.BooksRepository;
