@@ -6,13 +6,13 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name="CustomerBookMapping")
 public class CustomerBookMapping {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer customerBookMappingId;
     private Integer customerId;
     private Integer bookId;
+
     public CustomerBookMapping() {}
     public Integer getCustomerBookMappingId() {
         return customerBookMappingId;
@@ -37,25 +37,14 @@ public class CustomerBookMapping {
         this.bookId = bookId;
     }
 
-    public void setCustomerBookMappingId(Integer customerBookMappingId) {
-        this.customerBookMappingId = customerBookMappingId;
-    }
-
     public Integer getCustomerId() {
         return customerId;
-    }
-
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
     }
 
     public Integer getBookId() {
         return bookId;
     }
 
-    public void setBookId(Integer bookId) {
-        this.bookId = bookId;
-    }
     public static CustomerBookMapping entityFrom(CustomerBookMappingDto customerBookMappingDto) {
         return new CustomerBookMapping(customerBookMappingDto.getCustomerBookMappingId(),customerBookMappingDto.getCustomerId(), customerBookMappingDto.getBookId());
     }
