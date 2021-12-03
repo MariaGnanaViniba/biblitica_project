@@ -66,10 +66,10 @@ public class LibraryController {
     }
 
 
-    @PutMapping ("/books/{id}")
-    private ResponseEntity<String> returnABook(@PathVariable Integer id) {
-        System.out.println("Book id to Return: " + id);
-        BookDto updatedBookDto = libraryService.returnABook(id);
+    @PutMapping ("/books/return")
+    private ResponseEntity<String> returnABook(@RequestBody CustomerBookMappingDto mappingDto) {
+        //System.out.println("Book id to Return: " + id);
+        BookDto updatedBookDto = libraryService.returnABook(mappingDto);
         StringBuilder message = new StringBuilder("The Book ");
         message.append(updatedBookDto.getTitle()).append(" is returned Successfully!");
         return ResponseEntity.ok().body(message.toString());

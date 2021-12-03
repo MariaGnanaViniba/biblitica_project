@@ -63,21 +63,6 @@ public class LibraryServiceIntegrationTest {
         assertEquals(0, allBooks.size());
     }
 
-
-    @Test
-    void shouldSaveAndRetrieveBook() {
-        // Given
-        booksRepository.deleteAll();
-
-        // When
-        BookEntity bookEntity = new BookEntity(null, "ME2321", "Refractorin", "Martin","publisher",2000,"Available");
-        BookEntity savedEntity = booksRepository.save(bookEntity);
-
-        // Then
-        BookDto expectedBook = new BookDto(savedEntity.getId() ,savedEntity.getIsbn(),savedEntity.getTitle(),savedEntity.getAuthor(),savedEntity.getPublisher(),savedEntity.getYearOfPublication(),savedEntity.getStatus());
-        assertEquals(expectedBook, booksService.getBookById(savedEntity.getId()).get());
-    }
-
     @Test
     public void filterBooksByStatus() {
         // Given
@@ -94,23 +79,32 @@ public class LibraryServiceIntegrationTest {
         assertEquals(2, actualBooks.size());
     }
 
-
     @Test
     void shouldBeAbleToReturnBook() {
         //Given
         booksRepository.deleteAll();
+        customerBookMappingRepository.deleteAll();
 
         //When
         BookEntity bookEntity = new BookEntity(null, "ME2321", "Refractorin", "Martin","publisher",2000,"Available");
-        BookEntity savedEntity = booksRepository.save(bookEntity);
-        BookEntity book = booksRepository.findById(savedEntity.getId()).get();
+        BookEntity savedBookEntity = booksRepository.save(bookEntity);
+
+        //Create Mapping entity
+        CustomerBookMappingEntity mappingEntity = new CustomerBookMappingEntity(null, 1,savedBookEntity.getId());
+        CustomerBookMappingEntity savedEntity = customerBookMappingRepository.save(mappingEntity);
+
+        //updating the book table status
+        BookEntity book = booksRepository.findById(savedEntity.getBookId()).get();
         book.setStatus("Available");
-        savedEntity = booksRepository.save(book);
-        BookDto actualDto = new BookDto(savedEntity.getId() ,savedEntity.getIsbn(),savedEntity.getTitle(),savedEntity.getAuthor(),savedEntity.getPublisher(),savedEntity.getYearOfPublication(),savedEntity.getStatus());
 
         //Then
-        BookDto expectedDto = booksService.returnABook(savedEntity.getId());
-        Assertions.assertEquals(expectedDto, actualDto);
+        //convert the book entity into dto
+        BookDto expectedDto = new BookDto(book.getId() ,book.getIsbn(),book.getTitle(),book.getAuthor(),book.getPublisher(),book.getYearOfPublication(),"Available");
+        //convert the mapping entity into dto
+        CustomerBookMappingDto mappingDto = CustomerBookMappingDto.dtoFrom(savedEntity);
+        //Hitting a service
+        BookDto actualDto = booksService.returnABook(mappingDto);
+        Assertions.assertEquals(expectedDto,actualDto);
     }
     @Test
     void shouldNotBeAbleToCheckoutBook_ifBookAlreadyIssued(){
