@@ -1,17 +1,25 @@
 package com.vapasi.biblioteca.dto;
 
 import com.vapasi.biblioteca.entity.Books;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.util.Objects;
 
 public class BookDto {
 
+    @ApiModelProperty(notes = "The database generated Book ID")
     private Integer id;
+    @ApiModelProperty(notes = "Book isbn code")
     private String isbn;
+    @ApiModelProperty(notes = "Book title")
     private String title;
+    @ApiModelProperty(notes = "Book author")
     private String author;
+    @ApiModelProperty(notes = "Book publisher")
     private String publisher;
+    @ApiModelProperty(notes = "Book Year of Publication")
     private Integer yearOfPublication;
+    @ApiModelProperty(notes = "Book status")
     private String status;
 
     public BookDto(Integer id, String isbn, String title, String author, String publisher, Integer yearOfPublication,

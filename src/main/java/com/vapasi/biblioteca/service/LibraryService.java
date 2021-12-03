@@ -3,7 +3,7 @@ package com.vapasi.biblioteca.service;
 import com.vapasi.biblioteca.dto.CustomerBookMappingDto;
 import com.vapasi.biblioteca.entity.Books;
 import com.vapasi.biblioteca.dto.BookDto;
-import com.vapasi.biblioteca.entity.CustomerBookMappingEntity;
+import com.vapasi.biblioteca.entity.CustomerBookMapping;
 import com.vapasi.biblioteca.exceptions.BookAlreadyIssuedException;
 import com.vapasi.biblioteca.exceptions.BookNotFoundException;
 import com.vapasi.biblioteca.exceptions.BookNotIssuedException;
@@ -38,7 +38,7 @@ public class LibraryService {
     public BookDto issueBook(CustomerBookMappingDto customerBookMappingDto) {
         doValidations(customerBookMappingDto);
 
-        CustomerBookMappingEntity customerBookMappingEntity = CustomerBookMappingEntity.entityFrom(customerBookMappingDto);
+        CustomerBookMapping customerBookMappingEntity = CustomerBookMapping.entityFrom(customerBookMappingDto);
         mappingRepository.save(customerBookMappingEntity);
 
         BookDto updatedBookDto = updateBookStatus(customerBookMappingEntity.getBookId(), "Checkedout");
@@ -86,7 +86,7 @@ public class LibraryService {
     }
 
     public BookDto returnABook(CustomerBookMappingDto mappingDto) throws Exception {
-       CustomerBookMappingEntity mappingEntity =  mappingRepository.findByCustomerIdAndBookId(mappingDto.getCustomerId(),mappingDto.getBookId());
+       CustomerBookMapping mappingEntity =  mappingRepository.findByCustomerIdAndBookId(mappingDto.getCustomerId(),mappingDto.getBookId());
        validateReturnBook(mappingEntity);
        mappingRepository.deleteById(mappingEntity.getCustomerBookMappingId());
         Books bookEntity = booksRepository.findById(mappingDto.getBookId())
@@ -101,7 +101,7 @@ public class LibraryService {
         return  BookDto.dtoFrom(updatedBook);
     }
 
-    private void validateReturnBook(CustomerBookMappingEntity mappingEntity) {
+    private void validateReturnBook(CustomerBookMapping mappingEntity) {
         if(mappingEntity == null){
             throw new BookNotIssuedException(" Book is not issued to the customer.");
         }

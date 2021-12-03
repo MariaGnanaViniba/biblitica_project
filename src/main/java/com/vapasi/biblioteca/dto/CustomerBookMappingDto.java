@@ -1,13 +1,18 @@
 package com.vapasi.biblioteca.dto;
 
-import com.vapasi.biblioteca.entity.CustomerBookMappingEntity;
+import com.vapasi.biblioteca.entity.CustomerBookMapping;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.util.Objects;
 
 public class CustomerBookMappingDto {
+    @ApiModelProperty(notes = "The database generated mapping ID")
     private Integer customerBookMappingId;
+    @ApiModelProperty(notes = "Customer ID")
     private Integer customerId;
+    @ApiModelProperty(notes = "Book ID")
     private Integer bookId;
+
     public Integer getCustomerBookMappingId() {
         return customerBookMappingId;
     }
@@ -16,10 +21,6 @@ public class CustomerBookMappingDto {
         this.customerBookMappingId = customerBookMappingId;
         this.customerId = customerId;
         this.bookId = bookId;
-    }
-
-    public void setCustomerBookMappingId(Integer customerBookMappingId) {
-        this.customerBookMappingId = customerBookMappingId;
     }
 
     public Integer getCustomerId() {
@@ -51,7 +52,7 @@ public class CustomerBookMappingDto {
         this.bookId = bookId;
     }
 
-    public static CustomerBookMappingDto dtoFrom(CustomerBookMappingEntity mappingEntity) {
+    public static CustomerBookMappingDto dtoFrom(CustomerBookMapping mappingEntity) {
         return new CustomerBookMappingDto(mappingEntity.getCustomerBookMappingId(),mappingEntity.getCustomerId(),
                 mappingEntity.getBookId());
     }

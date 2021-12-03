@@ -7,15 +7,26 @@ import com.vapasi.biblioteca.exceptions.BookNotFoundException;
 import com.vapasi.biblioteca.exceptions.CustomerNotFoundException;
 import com.vapasi.biblioteca.exceptions.ErrorMessagesEnum;
 import com.vapasi.biblioteca.service.LibraryService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/library")
+@ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Successfully retrieved list"),
+        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+        @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+}
+)
+@Api(value="To handle operations for Online Library Management System")
 public class LibraryController {
 
     LibraryService libraryService;
@@ -31,19 +42,22 @@ public class LibraryController {
         return "Welcome Biblioteca";
     }
 
-    @GetMapping("/")
+    @ApiOperation(value = "View a list of all the books in the library")
+    @GetMapping(value = "/", produces = "application/json")
     public ResponseEntity<List<BookDto>> getAllBooks() {
         List<BookDto> allBooksDto = libraryService.getAllBooks();
         return ResponseEntity.ok().body(allBooksDto);
     }
 
 
-    @GetMapping("/books")
+    @ApiOperation(value = "View a list of Available books in the library")
+    @GetMapping(value = "/books", produces = "application/json")
     public ResponseEntity<List<BookDto>> filterByStatus(@RequestParam String status) {
         List<BookDto> filteredBooksDto = libraryService.filterByStatus(status);
         return ResponseEntity.ok().body(filteredBooksDto);
     }
 
+    @ApiOperation(value = "API - To issue a Book ", response = String.class)
     @PostMapping("/books/issue")
     //@PutMapping("/books/{id}/issue")
     //private ResponseEntity<String> issueBookToCustomer(@PathVariable Integer id, @RequestBody CustomerBookMappingDto mappingDto) {
@@ -67,6 +81,7 @@ public class LibraryController {
     }
 
 
+    @ApiOperation(value = "API - To return a Book", response = String.class)
     @PutMapping ("/books/return")
     private ResponseEntity<String> returnABook(@RequestBody CustomerBookMappingDto mappingDto) {
         try {

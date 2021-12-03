@@ -1,10 +1,15 @@
 package com.vapasi.biblioteca.dto;
 
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.Objects;
 
 public class CustomerDto {
+
+    @ApiModelProperty(notes = "The database generated mapping ID")
     private Integer customerid;
+    @ApiModelProperty(notes = "Customer Name")
     private String customerName;
 
     public String getCustomerName() {
@@ -29,15 +34,8 @@ public class CustomerDto {
         return Objects.hash(customerid, customerName);
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
-
     public Integer getCustomerid() {
         return customerid;
     }
 
-    public void setCustomerid(Integer customerid) {
-        this.customerid = customerid;
-    }
 }

@@ -7,13 +7,13 @@ import java.util.Objects;
 
 @Entity
 @Table(name="CustomerBookMapping")
-public class CustomerBookMappingEntity {
+public class CustomerBookMapping {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer customerBookMappingId;
     private Integer customerId;
     private Integer bookId;
-    public CustomerBookMappingEntity() {}
+    public CustomerBookMapping() {}
     public Integer getCustomerBookMappingId() {
         return customerBookMappingId;
     }
@@ -22,7 +22,7 @@ public class CustomerBookMappingEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CustomerBookMappingEntity that = (CustomerBookMappingEntity) o;
+        CustomerBookMapping that = (CustomerBookMapping) o;
         return customerBookMappingId.equals(that.customerBookMappingId) && customerId.equals(that.customerId) && bookId.equals(that.bookId);
     }
 
@@ -31,7 +31,7 @@ public class CustomerBookMappingEntity {
         return Objects.hash(customerBookMappingId, customerId, bookId);
     }
 
-    public CustomerBookMappingEntity(Integer customerBookMappingId, Integer customerId, Integer bookId) {
+    public CustomerBookMapping(Integer customerBookMappingId, Integer customerId, Integer bookId) {
         this.customerBookMappingId = customerBookMappingId;
         this.customerId = customerId;
         this.bookId = bookId;
@@ -56,7 +56,7 @@ public class CustomerBookMappingEntity {
     public void setBookId(Integer bookId) {
         this.bookId = bookId;
     }
-    public static CustomerBookMappingEntity entityFrom(CustomerBookMappingDto customerBookMappingDto) {
-        return new CustomerBookMappingEntity(customerBookMappingDto.getCustomerBookMappingId(),customerBookMappingDto.getCustomerId(), customerBookMappingDto.getBookId());
+    public static CustomerBookMapping entityFrom(CustomerBookMappingDto customerBookMappingDto) {
+        return new CustomerBookMapping(customerBookMappingDto.getCustomerBookMappingId(),customerBookMappingDto.getCustomerId(), customerBookMappingDto.getBookId());
     }
 }
