@@ -87,7 +87,7 @@ public class LibraryService {
 
     public BookDto returnABook(CustomerBookMappingDto mappingDto) throws Exception {
        CustomerBookMappingEntity mappingEntity =  mappingRepository.findByCustomerIdAndBookId(mappingDto.getCustomerId(),mappingDto.getBookId());
-       validate(mappingEntity);
+       validateReturnBook(mappingEntity);
        mappingRepository.deleteById(mappingEntity.getCustomerBookMappingId());
         Books bookEntity = booksRepository.findById(mappingDto.getBookId())
                 .orElseThrow(() -> {
@@ -101,9 +101,16 @@ public class LibraryService {
         return  BookDto.dtoFrom(updatedBook);
     }
 
-    private void validate(CustomerBookMappingEntity mappingEntity) {
+    private void validateReturnBook(CustomerBookMappingEntity mappingEntity) {
         if(mappingEntity == null){
             throw new BookNotIssuedException(" Book is not issued to the customer.");
         }
+        if(!customerRepository.existsByCustomerId(mappingEntity.getCustomerId())){
+            throw new CustomerNotFoundException();
+        }
+        if(!booksRepository.existsById(mappingEntity.getBookId())){
+            throw new BookNotFoundException();
+        }
+
     }
 }
