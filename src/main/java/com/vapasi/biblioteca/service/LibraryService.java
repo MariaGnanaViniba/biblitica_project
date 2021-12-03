@@ -35,14 +35,15 @@ public class LibraryService {
 
 
 
-    public Optional<CustomerBookMappingDto> issueBook(CustomerBookMappingDto customerBookMappingDto) {
+    public BookDto issueBook(CustomerBookMappingDto customerBookMappingDto) {
         doValidations(customerBookMappingDto);
+
         CustomerBookMappingEntity customerBookMappingEntity = CustomerBookMappingEntity.entityFrom(customerBookMappingDto);
-        CustomerBookMappingDto savedCustomerBookMappingDto = CustomerBookMappingDto.dtoFrom(mappingRepository.save(customerBookMappingEntity));
+        mappingRepository.save(customerBookMappingEntity);
 
-        updateBookStatus(customerBookMappingEntity.getBookId(), "Checkedout");
+        BookDto updatedBookDto = updateBookStatus(customerBookMappingEntity.getBookId(), "Checkedout");
 
-        return Optional.of(savedCustomerBookMappingDto);
+        return updatedBookDto;
     }
 
     private void doValidations(CustomerBookMappingDto customerBookMappingDto) {

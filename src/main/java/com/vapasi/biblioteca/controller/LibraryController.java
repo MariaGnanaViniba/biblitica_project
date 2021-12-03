@@ -45,16 +45,18 @@ public class LibraryController {
     }
 
     @PostMapping("/books/issue")
-    private ResponseEntity<String> issueBookToCustomer(@RequestBody CustomerBookMappingDto mappingDto) {
+    //@PutMapping("/books/{id}/issue")
+    //private ResponseEntity<String> issueBookToCustomer(@PathVariable Integer id, @RequestBody CustomerBookMappingDto mappingDto) {
+    private ResponseEntity<String> issueBook(@RequestBody CustomerBookMappingDto mappingDto) {
+
         if(mappingDto.getCustomerId() == null ||
                 mappingDto.getBookId() == null) {
             return ResponseEntity.badRequest().body(ErrorMessagesEnum.ImproperDetails.getMessage());
         }
         try {
-            Optional<CustomerBookMappingDto> savedMappingDto = libraryService.issueBook(mappingDto);
-            if (savedMappingDto.isPresent()) {
-                return ResponseEntity.ok().body(ErrorMessagesEnum.BookSuccessfullyIssued.getMessage());
-            }
+            BookDto updatedBookDto = libraryService.issueBook(mappingDto);
+            String message = String.format("The book %s is issued successfully !", updatedBookDto.getTitle());
+            return ResponseEntity.ok().body(message);
         }catch(CustomerNotFoundException custException){
             return ResponseEntity.badRequest().body(ErrorMessagesEnum.CustomerNotFound.getMessage());
         }catch(BookNotFoundException bookException){
@@ -62,7 +64,6 @@ public class LibraryController {
         }catch(BookAlreadyIssuedException bookException){
             return ResponseEntity.badRequest().body(ErrorMessagesEnum.BookAlreadyIssued.getMessage());
         }
-        return ResponseEntity.notFound().build();
     }
 
 

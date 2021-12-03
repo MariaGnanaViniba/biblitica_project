@@ -5,21 +5,21 @@ import com.vapasi.biblioteca.entity.CustomerBookMappingEntity;
 import java.util.Objects;
 
 public class CustomerBookMappingDto {
-    private Integer customerBookMappingid;
+    private Integer customerBookMappingId;
     private Integer customerId;
     private Integer bookId;
-    public Integer getCustomerBookMappingid() {
-        return customerBookMappingid;
+    public Integer getCustomerBookMappingId() {
+        return customerBookMappingId;
     }
 
-    public CustomerBookMappingDto(Integer customerBookMappingid, Integer customerId, Integer bookId) {
-        this.customerBookMappingid = customerBookMappingid;
+    public CustomerBookMappingDto(Integer customerBookMappingId, Integer customerId, Integer bookId) {
+        this.customerBookMappingId = customerBookMappingId;
         this.customerId = customerId;
         this.bookId = bookId;
     }
 
-    public void setCustomerBookMappingid(Integer customerBookMappingid) {
-        this.customerBookMappingid = customerBookMappingid;
+    public void setCustomerBookMappingId(Integer customerBookMappingId) {
+        this.customerBookMappingId = customerBookMappingId;
     }
 
     public Integer getCustomerId() {
@@ -31,12 +31,12 @@ public class CustomerBookMappingDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CustomerBookMappingDto that = (CustomerBookMappingDto) o;
-        return customerBookMappingid.equals(that.customerBookMappingid) && customerId.equals(that.customerId) && bookId.equals(that.bookId);
+        return customerBookMappingId.equals(that.customerBookMappingId) && customerId.equals(that.customerId) && bookId.equals(that.bookId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(customerBookMappingid, customerId, bookId);
+        return Objects.hash(customerBookMappingId, customerId, bookId);
     }
 
     public void setCustomerId(Integer customerId) {
