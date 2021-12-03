@@ -6,8 +6,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name="Customer")
-public class CustomerEntity {
+public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer customerId;
@@ -15,9 +14,9 @@ public class CustomerEntity {
     private String email;
     private String phone;
 
-    public CustomerEntity() {}
+    public Customer() {}
 
-    public CustomerEntity(Integer customerId, String customerName) {
+    public Customer(Integer customerId, String customerName) {
         this.customerId = customerId;
         this.customerName = customerName;
     }
@@ -26,7 +25,7 @@ public class CustomerEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CustomerEntity that = (CustomerEntity) o;
+        Customer that = (Customer) o;
         return customerId.equals(that.customerId) && customerName.equals(that.customerName) && email.equals(that.email) && phone.equals(that.phone);
     }
 
@@ -50,7 +49,7 @@ public class CustomerEntity {
     public void setCustomerId(Integer customerId) {
         this.customerId = customerId;
     }
-    public static CustomerEntity entityFrom(CustomerDto customerDto) {
-        return new CustomerEntity(customerDto.getCustomerid(), customerDto.getCustomerName());
+    public static Customer entityFrom(CustomerDto customerDto) {
+        return new Customer(customerDto.getCustomerid(), customerDto.getCustomerName());
     }
 }
