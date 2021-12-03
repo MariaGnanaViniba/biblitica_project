@@ -51,7 +51,7 @@ public class LibraryController {
         try {
             Optional<CustomerBookMappingDto> savedMappingDto = libraryService.issueBook(mappingDto);
             if (savedMappingDto.isPresent()) {
-                return ResponseEntity.ok().body("Book is successful issued.");
+                return ResponseEntity.ok().body("Book is successfully issued.");
             }
         }catch(CustomerNotFoundException custException){
             return ResponseEntity.badRequest().body("Customer not found, please try again.");

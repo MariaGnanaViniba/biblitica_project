@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CustomerBookMappingRepository extends JpaRepository<CustomerBookMappingEntity, Integer> {
     boolean existsByCustomerIdAndBookId(Integer customerId, Integer bookId);
-    //CustomerBookMappingEntity findByCustomerId(Integer customerId);
+    CustomerBookMappingEntity findByCustomerId(Integer customerId);
 }
