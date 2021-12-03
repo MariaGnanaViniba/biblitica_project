@@ -1,6 +1,5 @@
 package com.vapasi.biblioteca.dto;
 
-import com.vapasi.biblioteca.entity.BookEntity;
 import com.vapasi.biblioteca.entity.CustomerBookMappingEntity;
 
 import java.util.Objects;

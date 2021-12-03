@@ -1,7 +1,7 @@
 package com.vapasi.biblioteca.service;
 
 import com.vapasi.biblioteca.dto.CustomerBookMappingDto;
-import com.vapasi.biblioteca.entity.BookEntity;
+import com.vapasi.biblioteca.entity.Books;
 import com.vapasi.biblioteca.dto.BookDto;
 import com.vapasi.biblioteca.entity.CustomerBookMappingEntity;
 import com.vapasi.biblioteca.exceptions.BookAlreadyIssuedException;
@@ -58,28 +58,28 @@ public class LibraryService {
     }
 
     private void updateBookStatus(Integer bookId, String status) {
-        Optional<BookEntity> bookEntity = booksRepository.findById(bookId);
+        Optional<Books> bookEntity = booksRepository.findById(bookId);
         bookEntity.get().setStatus(status);
         booksRepository.save(bookEntity.get());
     }
 
     public List<BookDto> getAllBooks() {
-        List<BookEntity> bookEntityList = booksRepository.findAll();
+        List<Books> bookEntityList = booksRepository.findAll();
         return convertToBookDtoList(bookEntityList);
     }
 
-    private List<BookDto> convertToBookDtoList(List<BookEntity> bookEntityList) {
+    private List<BookDto> convertToBookDtoList(List<Books> bookEntityList) {
         return bookEntityList.stream().map(BookDto::dtoFrom).collect(Collectors.toList());
     }
 
 
     public Optional<BookDto> getBookById(Integer id) {
-        Optional<BookEntity> bookEntity = booksRepository.findById(id);
+        Optional<Books> bookEntity = booksRepository.findById(id);
         return bookEntity.map(BookDto::dtoFrom);
     }
 
     public List<BookDto> filterByStatus(String status) {
-        List<BookEntity> bookEntityList = booksRepository.findAllByStatusContains(status);
+        List<Books> bookEntityList = booksRepository.findAllByStatusContains(status);
         return convertToBookDtoList(bookEntityList);
     }
 
@@ -87,7 +87,7 @@ public class LibraryService {
        CustomerBookMappingEntity mappingEntity =  mappingRepository.findByCustomerIdAndBookId(mappingDto.getCustomerId(),mappingDto.getBookId());
        validate(mappingEntity);
        mappingRepository.deleteById(mappingEntity.getCustomerBookMappingId());
-        BookEntity bookEntity = booksRepository.findById(mappingDto.getBookId())
+        Books bookEntity = booksRepository.findById(mappingDto.getBookId())
                 .orElseThrow(() -> {
                     String message = "Book with ID %s doesn't belong to the library."
                             .format(Integer.toString(mappingDto.getBookId()));
@@ -95,7 +95,7 @@ public class LibraryService {
                 });
 
         bookEntity.setStatus("Available");
-        BookEntity updatedBook = booksRepository.save(bookEntity);
+        Books updatedBook = booksRepository.save(bookEntity);
         return  BookDto.dtoFrom(updatedBook);
     }
 

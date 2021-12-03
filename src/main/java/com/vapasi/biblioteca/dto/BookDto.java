@@ -1,9 +1,8 @@
 package com.vapasi.biblioteca.dto;
 
-import com.vapasi.biblioteca.entity.BookEntity;
+import com.vapasi.biblioteca.entity.Books;
 
 import java.util.Objects;
-import java.util.Optional;
 
 public class BookDto {
 
@@ -83,7 +82,7 @@ public class BookDto {
                 '}';
     }
 
-    public static BookDto dtoFrom(BookEntity bookEntity) {
+    public static BookDto dtoFrom(Books bookEntity) {
         return new BookDto(bookEntity.getId(),bookEntity.getIsbn(),bookEntity.getTitle(),bookEntity.getAuthor(),bookEntity.getPublisher(),
                 bookEntity.getYearOfPublication(),bookEntity.getStatus());
     }

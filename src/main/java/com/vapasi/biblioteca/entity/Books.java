@@ -6,8 +6,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name="Books")
-public class BookEntity {
+public class Books {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,8 +18,8 @@ public class BookEntity {
     private Integer yearOfPublication;
     private String status;
 
-    public BookEntity() {}
-    public BookEntity(Integer id, String isbn, String title, String author, String publisher, Integer yearOfPublication, String status) {
+    public Books() {}
+    public Books(Integer id, String isbn, String title, String author, String publisher, Integer yearOfPublication, String status) {
         this.id = id;
         this.isbn = isbn;
         this.title = title;
@@ -91,7 +90,7 @@ public class BookEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        BookEntity that = (BookEntity) o;
+        Books that = (Books) o;
         return Objects.equals(isbn, that.isbn) && Objects.equals(title, that.title) && Objects.equals(author, that.author) && Objects.equals(publisher, that.publisher) && Objects.equals(yearOfPublication, that.yearOfPublication) && Objects.equals(status, that.status);
     }
 
@@ -100,8 +99,8 @@ public class BookEntity {
         return Objects.hash(isbn, title, author, publisher, yearOfPublication, status);
     }
 
-    public static BookEntity entityFrom(BookDto bookDto) {
-        return new BookEntity(bookDto.getId(), bookDto.getIsbn(), bookDto.getTitle(), bookDto.getAuthor(),bookDto.getPublisher(),bookDto.getYearOfPublication(), bookDto.getStatus());
+    public static Books entityFrom(BookDto bookDto) {
+        return new Books(bookDto.getId(), bookDto.getIsbn(), bookDto.getTitle(), bookDto.getAuthor(),bookDto.getPublisher(),bookDto.getYearOfPublication(), bookDto.getStatus());
     }
 
 }

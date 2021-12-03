@@ -1,6 +1,6 @@
 package com.vapasi.biblioteca.service;
 
-import com.vapasi.biblioteca.entity.BookEntity;
+import com.vapasi.biblioteca.entity.Books;
 import com.vapasi.biblioteca.dto.BookDto;
 import com.vapasi.biblioteca.repository.BooksRepository;
 import com.vapasi.biblioteca.repository.CustomerBookMappingRepository;
@@ -32,9 +32,9 @@ public class LibraryServiceTest {
     @Test
     public void getAllMoviesAddedToList() {
         // Given
-        List<BookEntity> allBooks = new ArrayList<>();
-        allBooks.add(new BookEntity(112, "ME2321", "Refractorin", "Martin","publisher",2000,"Available"));
-        allBooks.add(new BookEntity(104, "p356", "Samuel Story", "Quintine","publisher2",1980,"Available"));
+        List<Books> allBooks = new ArrayList<>();
+        allBooks.add(new Books(112, "ME2321", "Refractorin", "Martin","publisher",2000,"Available"));
+        allBooks.add(new Books(104, "p356", "Samuel Story", "Quintine","publisher2",1980,"Available"));
         when(booksRepository.findAll()).thenReturn(allBooks);
 
         // When
@@ -51,7 +51,7 @@ public class LibraryServiceTest {
     @Test
     public void getEmptyWhenNoBooksAddedToList() {
         // Given
-        List<BookEntity> allBooks = new ArrayList<>();
+        List<Books> allBooks = new ArrayList<>();
         when(booksRepository.findAll()).thenReturn(allBooks);
 
         // When
@@ -65,7 +65,7 @@ public class LibraryServiceTest {
     @Test
     void shouldGetBookById() {
         // Given
-        BookEntity bookEntity = new BookEntity(112, "ME2321", "Refractorin", "Martin","publisher",2000,"Available");
+        Books bookEntity = new Books(112, "ME2321", "Refractorin", "Martin","publisher",2000,"Available");
         when(booksRepository.findById(112)).thenReturn(Optional.of(bookEntity));
 
         // When
@@ -82,9 +82,9 @@ public class LibraryServiceTest {
     @Test
     void shouldAbleToFilterBookByStatus() {
         // Given
-        List<BookEntity> booksList = new ArrayList<>();
-        booksList.add(new BookEntity(112, "ME2321", "Refractorin", "Martin","publisher",2000,"Available"));
-        booksList.add(new BookEntity(104, "p356", "Samuel Story", "Quintine","publisher2",1980,"Available"));
+        List<Books> booksList = new ArrayList<>();
+        booksList.add(new Books(112, "ME2321", "Refractorin", "Martin","publisher",2000,"Available"));
+        booksList.add(new Books(104, "p356", "Samuel Story", "Quintine","publisher2",1980,"Available"));
         when(booksRepository.findAllByStatusContains("Available")).thenReturn(booksList);
 
         // When

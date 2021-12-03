@@ -1,10 +1,9 @@
 package com.vapasi.biblioteca.service;
 
 import com.vapasi.biblioteca.dto.CustomerBookMappingDto;
-import com.vapasi.biblioteca.entity.BookEntity;
+import com.vapasi.biblioteca.entity.Books;
 import com.vapasi.biblioteca.dto.BookDto;
 import com.vapasi.biblioteca.entity.CustomerBookMappingEntity;
-import com.vapasi.biblioteca.exceptions.BookAlreadyIssuedException;
 import com.vapasi.biblioteca.exceptions.BookNotFoundException;
 import com.vapasi.biblioteca.exceptions.CustomerNotFoundException;
 import com.vapasi.biblioteca.repository.BooksRepository;
@@ -40,9 +39,9 @@ public class LibraryServiceIntegrationTest {
        booksRepository.deleteAll();
 
         // When
-        List<BookEntity> allBooks = new ArrayList<>();
-        allBooks.add(new BookEntity(null, "ME2321", "Refractorin", "Martin","publisher",2000, "Available"));
-        allBooks.add(new BookEntity(null, "p356", "Samuel Story", "Quintine","publisher2",1980,"Available"));
+        List<Books> allBooks = new ArrayList<>();
+        allBooks.add(new Books(null, "ME2321", "Refractorin", "Martin","publisher",2000, "Available"));
+        allBooks.add(new Books(null, "p356", "Samuel Story", "Quintine","publisher2",1980,"Available"));
         booksRepository.saveAll(allBooks);
 
         // Then
@@ -69,9 +68,9 @@ public class LibraryServiceIntegrationTest {
         booksRepository.deleteAll();
 
         // When
-        List<BookEntity> allBooks = new ArrayList<>();
-        allBooks.add(new BookEntity(null, "ME2321", "Refractorin", "Martin","publisher",2000,"Available"));
-        allBooks.add(new BookEntity(null, "p356", "Samuel Story", "Quintine","publisher2",1980, "Available"));
+        List<Books> allBooks = new ArrayList<>();
+        allBooks.add(new Books(null, "ME2321", "Refractorin", "Martin","publisher",2000,"Available"));
+        allBooks.add(new Books(null, "p356", "Samuel Story", "Quintine","publisher2",1980, "Available"));
         booksRepository.saveAll(allBooks);
 
         //Then
@@ -86,15 +85,15 @@ public class LibraryServiceIntegrationTest {
         customerBookMappingRepository.deleteAll();
 
         //When
-        BookEntity bookEntity = new BookEntity(null, "ME2321", "Refractorin", "Martin","publisher",2000,"Available");
-        BookEntity savedBookEntity = booksRepository.save(bookEntity);
+        Books bookEntity = new Books(null, "ME2321", "Refractorin", "Martin","publisher",2000,"Available");
+        Books savedBookEntity = booksRepository.save(bookEntity);
 
         //Create Mapping entity
         CustomerBookMappingEntity mappingEntity = new CustomerBookMappingEntity(null, 1,savedBookEntity.getId());
         CustomerBookMappingEntity savedEntity = customerBookMappingRepository.save(mappingEntity);
 
         //updating the book table status
-        BookEntity book = booksRepository.findById(savedEntity.getBookId()).get();
+        Books book = booksRepository.findById(savedEntity.getBookId()).get();
         book.setStatus("Available");
 
         //Then
@@ -159,7 +158,7 @@ public class LibraryServiceIntegrationTest {
             savedMappingEntity = customerBookMappingRepository.saveAndFlush(customerBookMappingEntity);
 
             //Change the status to checkedout in book table
-            Optional<BookEntity> bookEntity = booksRepository.findById(bookId);
+            Optional<Books> bookEntity = booksRepository.findById(bookId);
             if(bookEntity.isPresent()) {
                 System.out.println(bookEntity.get());
                 bookEntity.get().setStatus("Checkedout");
