@@ -4,6 +4,7 @@ import com.vapasi.biblioteca.dto.CustomerBookMappingDto;
 import com.vapasi.biblioteca.entity.BookEntity;
 import com.vapasi.biblioteca.dto.BookDto;
 import com.vapasi.biblioteca.entity.CustomerBookMappingEntity;
+import com.vapasi.biblioteca.exceptions.BookAlreadyIssuedException;
 import com.vapasi.biblioteca.exceptions.BookNotFoundException;
 import com.vapasi.biblioteca.exceptions.CustomerNotFoundException;
 import com.vapasi.biblioteca.repository.BooksRepository;
@@ -34,18 +35,25 @@ public class LibraryService {
 
 
     public Optional<CustomerBookMappingDto> issueBook(CustomerBookMappingDto customerBookMappingDto) {
-        if(!customerRepository.existsByCustomerId(customerBookMappingDto.getCustomerId())){
-            throw new CustomerNotFoundException();
-        }
-        if(!booksRepository.existsById(customerBookMappingDto.getBookId())){
-            throw new BookNotFoundException();
-        }
+        doValidations(customerBookMappingDto);
         CustomerBookMappingEntity customerBookMappingEntity = CustomerBookMappingEntity.entityFrom(customerBookMappingDto);
         CustomerBookMappingDto savedCustomerBookMappingDto = CustomerBookMappingDto.dtoFrom(mappingRepository.save(customerBookMappingEntity));
 
         updateBookStatus(customerBookMappingEntity.getBookId(), "Checkedout");
 
         return Optional.of(savedCustomerBookMappingDto);
+    }
+
+    private void doValidations(CustomerBookMappingDto customerBookMappingDto) {
+        if(!customerRepository.existsByCustomerId(customerBookMappingDto.getCustomerId())){
+            throw new CustomerNotFoundException();
+        }
+        if(!booksRepository.existsById(customerBookMappingDto.getBookId())){
+            throw new BookNotFoundException();
+        }
+        if(mappingRepository.existsByCustomerIdAndBookId(customerBookMappingDto.getCustomerId(), customerBookMappingDto.getBookId())) {
+            throw new BookAlreadyIssuedException();
+        }
     }
 
     private void updateBookStatus(Integer bookId, String status) {
