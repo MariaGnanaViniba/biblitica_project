@@ -51,7 +51,7 @@ public class LibraryService {
         if(!booksRepository.existsById(customerBookMappingDto.getBookId())){
             throw new BookNotFoundException();
         }
-        if(mappingRepository.existsByCustomerIdAndBookId(customerBookMappingDto.getCustomerId(), customerBookMappingDto.getBookId())) {
+        if(booksRepository.existsByIdAndStatus(customerBookMappingDto.getBookId(), "Checkedout")){
             throw new BookAlreadyIssuedException();
         }
     }

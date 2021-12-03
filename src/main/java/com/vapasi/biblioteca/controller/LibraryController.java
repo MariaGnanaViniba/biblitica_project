@@ -5,6 +5,7 @@ import com.vapasi.biblioteca.dto.CustomerBookMappingDto;
 import com.vapasi.biblioteca.exceptions.BookAlreadyIssuedException;
 import com.vapasi.biblioteca.exceptions.BookNotFoundException;
 import com.vapasi.biblioteca.exceptions.CustomerNotFoundException;
+import com.vapasi.biblioteca.exceptions.ErrorMessagesEnum;
 import com.vapasi.biblioteca.service.LibraryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -47,19 +48,19 @@ public class LibraryController {
     private ResponseEntity<String> issueBookToCustomer(@RequestBody CustomerBookMappingDto mappingDto) {
         if(mappingDto.getCustomerId() == null ||
                 mappingDto.getBookId() == null) {
-            return ResponseEntity.badRequest().body("Please provide proper details, try again.");
+            return ResponseEntity.badRequest().body(ErrorMessagesEnum.ImproperDetails.getMessage());
         }
         try {
             Optional<CustomerBookMappingDto> savedMappingDto = libraryService.issueBook(mappingDto);
             if (savedMappingDto.isPresent()) {
-                return ResponseEntity.ok().body("Book is successfully issued.");
+                return ResponseEntity.ok().body(ErrorMessagesEnum.BookSuccessfullyIssued.getMessage());
             }
         }catch(CustomerNotFoundException custException){
-            return ResponseEntity.badRequest().body("Customer not found, please try again.");
+            return ResponseEntity.badRequest().body(ErrorMessagesEnum.CustomerNotFound.getMessage());
         }catch(BookNotFoundException bookException){
-            return ResponseEntity.badRequest().body("Book not found, please try again.");
+            return ResponseEntity.badRequest().body(ErrorMessagesEnum.BookNotFound.getMessage());
         }catch(BookAlreadyIssuedException bookException){
-            return ResponseEntity.badRequest().body("This book is already issued to you.");
+            return ResponseEntity.badRequest().body(ErrorMessagesEnum.BookAlreadyIssued.getMessage());
         }
         return ResponseEntity.notFound().build();
     }

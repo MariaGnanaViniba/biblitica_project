@@ -12,5 +12,5 @@ public interface BooksRepository extends JpaRepository <BookEntity, Integer> {
     boolean existsById(Integer id);
     Optional<BookEntity> findById(Integer id);
     List<BookEntity> findAllByStatusContains(String status);
-
+    boolean existsByIdAndStatus(Integer id, String status);
 }

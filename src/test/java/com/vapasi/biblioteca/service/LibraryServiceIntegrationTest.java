@@ -1,8 +1,11 @@
 package com.vapasi.biblioteca.service;
 
+import com.vapasi.biblioteca.dto.CustomerBookMappingDto;
 import com.vapasi.biblioteca.entity.BookEntity;
 import com.vapasi.biblioteca.dto.BookDto;
 import com.vapasi.biblioteca.entity.CustomerBookMappingEntity;
+import com.vapasi.biblioteca.exceptions.BookAlreadyIssuedException;
+import com.vapasi.biblioteca.exceptions.BookNotFoundException;
 import com.vapasi.biblioteca.exceptions.CustomerNotFoundException;
 import com.vapasi.biblioteca.repository.BooksRepository;
 import com.vapasi.biblioteca.repository.CustomerBookMappingRepository;
@@ -16,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class LibraryServiceIntegrationTest {
@@ -109,7 +112,42 @@ public class LibraryServiceIntegrationTest {
         BookDto expectedDto = booksService.returnABook(savedEntity.getId());
         Assertions.assertEquals(expectedDto, actualDto);
     }
+    @Test
+    void shouldNotBeAbleToCheckoutBook_ifBookAlreadyIssued(){
+        //Arrange
+        Integer bookId = new Integer(1);
+        Integer customerId = new Integer(1);
+        CustomerBookMappingEntity expectedMappingEntity
+                = new CustomerBookMappingEntity(new Integer(1),customerId, bookId);
 
+        booksService.issueBook(CustomerBookMappingDto.dtoFrom(expectedMappingEntity));
+
+        Exception exception = Assertions.assertThrows(BookAlreadyIssuedException.class, () -> {
+            booksService.issueBook(CustomerBookMappingDto.dtoFrom(expectedMappingEntity));
+        });
+    }
+    @Test
+    void shouldNotBeAbleToCheckoutBook_ifNotValidCustomer(){
+        //Arrange
+        Integer bookId = new Integer(1);
+        Integer customerId = new Integer(10000);
+        CustomerBookMappingEntity expectedMappingEntity
+                = new CustomerBookMappingEntity(new Integer(1),customerId, bookId);
+        Exception exception = Assertions.assertThrows(CustomerNotFoundException.class, () -> {
+            booksService.issueBook(CustomerBookMappingDto.dtoFrom(expectedMappingEntity));
+        });
+    }
+    @Test
+    void shouldNotBeAbleToCheckoutBook_ifBookNotPresentInLibrary(){
+        //Arrange
+        Integer bookId = new Integer(1000);
+        Integer customerId = new Integer(1);
+        CustomerBookMappingEntity expectedMappingEntity
+                = new CustomerBookMappingEntity(new Integer(1),customerId, bookId);
+        Exception exception = Assertions.assertThrows(BookNotFoundException.class, () -> {
+            booksService.issueBook(CustomerBookMappingDto.dtoFrom(expectedMappingEntity));
+        });
+    }
     @Test
     void shouldBeAbleToCheckoutBook(){
         //Arrange
@@ -118,13 +156,8 @@ public class LibraryServiceIntegrationTest {
         CustomerBookMappingEntity expectedMappingEntity
                 = new CustomerBookMappingEntity(new Integer(1),customerId, bookId);
         CustomerBookMappingEntity savedMappingEntity = null;
-        if(!customerRepository.existsByCustomerId(customerId)){
-            throw new CustomerNotFoundException();
-        }
-        if(!booksRepository.existsById(bookId)){
-            //throw new BookNotFoundException();
-        }
-        if(!customerBookMappingRepository.existsByCustomerIdAndBookId(customerId, bookId)){
+
+        if(booksRepository.existsByIdAndStatus(bookId, "Available")){
 
             //make new entry in mapping table
             CustomerBookMappingEntity customerBookMappingEntity = new CustomerBookMappingEntity(null, customerId, bookId);
