@@ -80,7 +80,7 @@ public class LibraryServiceIntegrationTest {
     }
 
     @Test
-    void shouldBeAbleToReturnBook() {
+    void shouldBeAbleToReturnBook() throws Exception {
         //Given
         booksRepository.deleteAll();
         customerBookMappingRepository.deleteAll();

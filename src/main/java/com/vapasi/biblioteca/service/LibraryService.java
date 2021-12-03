@@ -82,18 +82,21 @@ public class LibraryService {
         return convertToBookDtoList(bookEntityList);
     }
 
-    public BookDto returnABook(CustomerBookMappingDto mappingDto) {
-        //doValidations(mappingDto);
+    public BookDto returnABook(CustomerBookMappingDto mappingDto) throws Exception {
        CustomerBookMappingEntity mappingEntity =  mappingRepository.findByCustomerIdAndBookId(mappingDto.getCustomerId(),mappingDto.getBookId());
-       mappingRepository.deleteById(mappingEntity.getCustomerBookMappingId());
-        BookDto bookDto = null;
-        Optional<BookEntity> bookEntity = booksRepository.findById(mappingDto.getBookId());
-        if(bookEntity.isPresent()) {
-            bookEntity.get().setStatus("Available");
-            BookEntity updatedBook = booksRepository.save(bookEntity.get());
-            bookDto = BookDto.dtoFrom(updatedBook);
+        if(mappingEntity == null){
+            throw new Exception("Book not issued to the customer");
         }
+       mappingRepository.deleteById(mappingEntity.getCustomerBookMappingId());
+        BookEntity bookEntity = booksRepository.findById(mappingDto.getBookId())
+                .orElseThrow(() -> {
+                    String message = "Book with ID %s doesn't belong to the library."
+                            .format(Integer.toString(mappingDto.getBookId()));
+                    return new BookNotFoundException(message);
+                });
 
-        return bookDto;
+        bookEntity.setStatus("Available");
+        BookEntity updatedBook = booksRepository.save(bookEntity);
+        return  BookDto.dtoFrom(updatedBook);
     }
 }

@@ -68,10 +68,16 @@ public class LibraryController {
 
     @PutMapping ("/books/return")
     private ResponseEntity<String> returnABook(@RequestBody CustomerBookMappingDto mappingDto) {
-        //System.out.println("Book id to Return: " + id);
-        BookDto updatedBookDto = libraryService.returnABook(mappingDto);
-        StringBuilder message = new StringBuilder("The Book ");
-        message.append(updatedBookDto.getTitle()).append(" is returned Successfully!");
-        return ResponseEntity.ok().body(message.toString());
+        try {
+            BookDto updatedBookDto = libraryService.returnABook(mappingDto);
+            String message = String.format("The book %s is returned successfully !", updatedBookDto.getTitle());
+            return ResponseEntity.ok().body(message);
+        }
+        catch(BookNotFoundException bookException) {
+            return ResponseEntity.badRequest().body(bookException.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
