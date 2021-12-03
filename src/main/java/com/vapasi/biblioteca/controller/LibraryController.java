@@ -43,7 +43,7 @@ public class LibraryController {
         return ResponseEntity.ok().body(filteredBooksDto);
     }
 
-    @PostMapping("/books/")
+    @PostMapping("/books/issue")
     private ResponseEntity<String> issueBookToCustomer(@RequestBody CustomerBookMappingDto mappingDto) {
         if(mappingDto.getCustomerId() == null ||
                 mappingDto.getBookId() == null) {
